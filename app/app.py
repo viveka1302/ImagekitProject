@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from schemas import PostCreate
+from .schemas import PostCreate
 
 app= FastAPI()
 
@@ -28,3 +28,9 @@ def get_post(id: int):
     if id not in text_posts:
         raise HTTPException(status_code=404, detail="post-id Not Found")
     return text_posts.get(id)
+
+@app.put("/posts")
+def create_post(post: PostCreate):
+    new_post={"title": post.title, "content":post.content}
+    text_posts[max(text_posts.keys())+1] = new_post
+    return new_post
